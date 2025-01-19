@@ -21,6 +21,8 @@ public class InteractibleObject : MonoBehaviour
     [SerializeField] private Sprite[] altSprites;
     [SerializeField] private Sprite originalSprite;
 
+    private Spawner spawn;
+
     private bool isWorking = false;
     private bool didWork = false;
     private string targetItem;
@@ -30,15 +32,20 @@ public class InteractibleObject : MonoBehaviour
     {
         z_Collider = GetComponent<Collider2D>();
         invent = GameObject.Find("Inventory").GetComponent<Inventory>();
+        spawn = GameObject.Find("Spawner").GetComponent<Spawner>();
     }
 
-    protected void OnCollisionStay2D(Collision2D collision)
+    protected void OnTriggerStay2D(Collider2D collision)
     {
+        if (collision.gameObject.name == "Player")
+        {
         if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Interacted with " + yourself.name);
             OnInteract();
         }
+        }
+
     }
 
     protected void OnInteract()
@@ -94,7 +101,6 @@ public class InteractibleObject : MonoBehaviour
             yourself.GetComponent<SpriteRenderer>().sprite = originalSprite;
             didWork = false;
         }
-
 
 
     }

@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
 
     private string[] itemList = new string[7];
 
-    [SerializeField] private GameObject[] allItems;
+    [SerializeField] public GameObject[] allItems;
 
     public string selectedItem;
     [SerializeField] private Sprite originalSprite;

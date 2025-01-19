@@ -8,27 +8,45 @@ public class Spawner : MonoBehaviour
     public GameObject[] prefabSpawns;
     private List<GameObject> spawnedPrefabs = new List<GameObject>();
 
-    private Inventory invent;
-
     private int maxSpawns = 1;
     private float spawnTime = 5f;
-    private float lastSpawn = 0f;
+    public float lastSpawn = 0f;
+
+    private Vector3? lastDestroyedPosition = null;
 
     [SerializeField] private AudioClip spawnSound;
-        void Update()
+
+    void Update()
     {
-        if (Time.time > lastSpawn + spawnTime)
+        for (int i = spawnedPrefabs.Count - 1; i >= 0; i--)
         {
+            if (spawnedPrefabs[i] == null)
+            {
+                if (lastDestroyedPosition == null)
+                {
+                    if (spawnedPrefabs[i] != null)
+                    {
+                        lastDestroyedPosition = spawnedPrefabs[i].transform.position;
+                    }
+                }
+
+                lastSpawn = Time.time; 
+
+                spawnedPrefabs.RemoveAt(i);
+            }
+        }
+
+        if (Time.time > lastSpawn + spawnTime && spawnedPrefabs.Count < maxSpawns)
+        {
+            Vector3 spawnPosition = lastDestroyedPosition ?? spawnPoint.position;
+
             GameObject prefabToSpawn = prefabSpawns[Random.Range(0, prefabSpawns.Length)];
 
-            GameObject newObject = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
+            GameObject newObject = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
 
-            lastSpawn = Time.time;
+            spawnedPrefabs.Add(newObject);
+
+            lastDestroyedPosition = null; 
         }
     }
-        void OnDestroy()
-    {
-        lastSpawn = Time.time;
-    }
-
 }
