@@ -14,13 +14,13 @@ public class CollidableObject : MonoBehaviour
     private void Start(){
         z_Collider = GetComponent<Collider2D>();
     }
+
     protected virtual void Update(){
         z_Collider.OverlapCollider(z_filter, z_Colliders);
         foreach (var o in z_Colliders){
             OnCollided(o.gameObject);
         }
     }
-
     protected virtual void OnCollided(GameObject collision){
         Debug.Log("Collided with " + collision.name);
     }
