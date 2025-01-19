@@ -7,6 +7,7 @@ public class InteractibleObject : MonoBehaviour
     private Collider2D z_Collider;
     [SerializeField] private bool isItem;
     [SerializeField] private bool isContainer;
+    [SerializeField] private bool isMachine;
     [SerializeField] private GameObject yourself;
     [SerializeField] private string boxContents;
     [SerializeField] private Inventory invent;
@@ -25,33 +26,45 @@ public class InteractibleObject : MonoBehaviour
     private string targetItem;
 
 
-    private void Start(){
+    private void Start()
+    {
         z_Collider = GetComponent<Collider2D>();
+        invent = GameObject.Find("Inventory").GetComponent<Inventory>();
     }
 
-    protected void OnCollisionStay2D(Collision2D collision){
-        if (Input.GetKeyDown(KeyCode.E)){
+    protected void OnCollisionStay2D(Collision2D collision)
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
             Debug.Log("Interacted with " + yourself.name);
             OnInteract();
         }
     }
 
-    protected void OnInteract(){
-        if(isItem){
+    protected void OnInteract()
+    {
+        if (isItem)
+        {
+            invent.AddItem(yourself.name);
+            Destroy(yourself);
+        }
+        if (isContainer)
+        {
             invent.AddItem(boxContents);
         }
-        if(isContainer && (invent.selectedItem != null))
+
+        if (isMachine && (invent.selectedItem != null))
         {
-           for (int i = 0; i < inputItems.Length; i++)
-           {
-               if (invent.selectedItem == inputItems[i])
-               {
-                     targetItem = outputItems[i];
-               }
-           } 
+            for (int i = 0; i < inputItems.Length; i++)
+            {
+                if (invent.selectedItem == inputItems[i])
+                {
+                    targetItem = outputItems[i];
+                }
+            }
         }
 
-        if(isContainer && !isWorking && !didWork)
+        if (isMachine && !isWorking && !didWork)
         {
             Debug.Log("Placing " + invent.selectedItem + " into " + yourself.name);
             invent.RemoveItem(invent.selectedItem);
@@ -69,11 +82,13 @@ public class InteractibleObject : MonoBehaviour
 
             StartCoroutine(Working());
         }
-        if(isContainer && isWorking && !didWork){
+        if (isMachine && isWorking && !didWork)
+        {
             Debug.Log("Working on " + targetItem);
 
         }
-        if(isContainer && didWork && !isWorking){
+        if (isMachine && didWork && !isWorking)
+        {
             Debug.Log("Taking " + targetItem + " from " + yourself.name);
             invent.AddItem(targetItem);
             yourself.GetComponent<SpriteRenderer>().sprite = originalSprite;
@@ -86,7 +101,8 @@ public class InteractibleObject : MonoBehaviour
 
 
 
-    IEnumerator Working(){
+    IEnumerator Working()
+    {
         AudioSource.PlayClipAtPoint(workingSound, transform.position);
         yield return new WaitForSeconds(workingDuration);
         AudioSource.PlayClipAtPoint(interactSound, transform.position);

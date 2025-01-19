@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a4e14da474d2502439813f258b7371f6, type: 3}
+  m_Sprite: {fileID: 1283436025, guid: d405c0c840acbf24cb091e2808948284, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -154,23 +154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577df46cad698024fadc943dd8c65f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  z_filter:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
   isItem: 1
   isContainer: 0
   yourself: {fileID: 4280148823948481577}
+  boxContents: 
   invent: {fileID: 0}
-  inputItem: {fileID: 0}
-  outputItem: {fileID: 0}
+  inputItems: []
+  outputItems: []
+  interactSound: {fileID: 0}
+  workingSound: {fileID: 0}
+  workingDuration: 0
+  altSprites: []
+  originalSprite: {fileID: 0}
