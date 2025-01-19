@@ -10,10 +10,18 @@ public class InteractibleObject : MonoBehaviour
     [SerializeField] private GameObject yourself;
     [SerializeField] private Inventory invent;
 
-    [SerializeField] private string inputItem;
-    [SerializeField] private string outputItem;
+    [SerializeField] private string[] inputItems;
+    [SerializeField] private string[] outputItems;
+    [SerializeField] private AudioClip interactSound;
+    [SerializeField] private AudioClip workingSound;
+    [SerializeField] private float workingDuration;
 
-    private GameObject input;
+    [SerializeField] private Sprite[] altSprites;
+    [SerializeField] private Sprite originalSprite;
+
+    private bool isWorking = false;
+    private bool didWork = false;
+    private string targetItem;
 
 
     private void Start(){
@@ -32,16 +40,58 @@ public class InteractibleObject : MonoBehaviour
             invent.AddItem(yourself.name);
             Destroy(yourself);
         }
-
-        if(isContainer)
+        if(isContainer && (invent.selectedItem != null))
         {
-            Debug.Log("Placing " + inputItem + " into " + yourself.name);
-            invent.RemoveItem(inputItem);
-            invent.AddItem(outputItem);
+           for (int i = 0; i < inputItems.Length; i++)
+           {
+               if (invent.selectedItem == inputItems[i])
+               {
+                     targetItem = outputItems[i];
+               }
+           } 
+        }
+
+        if(isContainer && !isWorking && !didWork)
+        {
+            Debug.Log("Placing " + invent.selectedItem + " into " + yourself.name);
+            invent.RemoveItem(invent.selectedItem);
+            isWorking = true;
+
+            for (int i = 0; i < inputItems.Length; i++)
+            {
+                if (invent.selectedItem == inputItems[i])
+                {
+                    yourself.GetComponent<SpriteRenderer>().sprite = altSprites[i];
+                }
+            }
+
+
+
+            StartCoroutine(Working());
+        }
+        if(isContainer && isWorking && !didWork){
+            Debug.Log("Working on " + targetItem);
+
+        }
+        if(isContainer && didWork && !isWorking){
+            Debug.Log("Taking " + targetItem + " from " + yourself.name);
+            invent.AddItem(targetItem);
+            yourself.GetComponent<SpriteRenderer>().sprite = originalSprite;
+            didWork = false;
         }
 
 
 
+    }
+
+
+
+    IEnumerator Working(){
+        AudioSource.PlayClipAtPoint(workingSound, transform.position);
+        yield return new WaitForSeconds(workingDuration);
+        AudioSource.PlayClipAtPoint(interactSound, transform.position);
+        isWorking = false;
+        didWork = true;
     }
 
 
