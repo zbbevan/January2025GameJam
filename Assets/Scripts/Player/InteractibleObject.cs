@@ -8,6 +8,7 @@ public class InteractibleObject : MonoBehaviour
     [SerializeField] private bool isItem;
     [SerializeField] private bool isContainer;
     [SerializeField] private GameObject yourself;
+    [SerializeField] private string boxContents;
     [SerializeField] private Inventory invent;
 
     [SerializeField] private string[] inputItems;
@@ -37,8 +38,7 @@ public class InteractibleObject : MonoBehaviour
 
     protected void OnInteract(){
         if(isItem){
-            invent.AddItem(yourself.name);
-            Destroy(yourself);
+            invent.AddItem(boxContents);
         }
         if(isContainer && (invent.selectedItem != null))
         {
