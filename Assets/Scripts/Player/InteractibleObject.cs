@@ -14,6 +14,7 @@ public class InteractibleObject : MonoBehaviour
 
     [SerializeField] private string[] inputItems;
     [SerializeField] private string[] outputItems;
+    private AudioSource audioSource;
     [SerializeField] private AudioClip interactSound;
     [SerializeField] private AudioClip workingSound;
     [SerializeField] private float workingDuration;
@@ -33,6 +34,7 @@ public class InteractibleObject : MonoBehaviour
         z_Collider = GetComponent<Collider2D>();
         invent = GameObject.Find("Inventory").GetComponent<Inventory>();
         spawn = GameObject.Find("Spawner").GetComponent<Spawner>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected void OnTriggerStay2D(Collider2D collision)
@@ -109,9 +111,12 @@ public class InteractibleObject : MonoBehaviour
 
     IEnumerator Working()
     {
-        AudioSource.PlayClipAtPoint(workingSound, transform.position);
+        audioSource.clip = workingSound;
+        audioSource.Play();
         yield return new WaitForSeconds(workingDuration);
-        AudioSource.PlayClipAtPoint(interactSound, transform.position);
+        audioSource.Stop();
+        audioSource.clip = interactSound;
+        audioSource.Play();
         isWorking = false;
         didWork = true;
     }

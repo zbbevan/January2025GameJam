@@ -13,8 +13,13 @@ public class Spawner : MonoBehaviour
     public float lastSpawn = 0f;
 
     private Vector3? lastDestroyedPosition = null;
+    private AudioSource aud;
 
-    [SerializeField] private AudioClip spawnSound;
+    private void Start()
+    {
+        aud = GetComponent<AudioSource>();
+    }
+
 
     void Update()
     {
@@ -43,6 +48,7 @@ public class Spawner : MonoBehaviour
             GameObject prefabToSpawn = prefabSpawns[Random.Range(0, prefabSpawns.Length)];
 
             GameObject newObject = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+            aud.Play();
 
             spawnedPrefabs.Add(newObject);
 
