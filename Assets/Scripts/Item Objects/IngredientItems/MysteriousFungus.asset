@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a00a6d102c94c6409d1f2eb8ab16404, type: 3}
+  m_Name: MysteriousFungus
+  m_EditorClassIdentifier: 
+  itemName: Mysterious Fungus
+  productName: 
+  itemSprite: {fileID: 1973235441, guid: d405c0c840acbf24cb091e2808948284, type: 3}
+  containerSprite: {fileID: 1402634715, guid: d405c0c840acbf24cb091e2808948284, type: 3}
+  productSprite: {fileID: 1226247918, guid: d405c0c840acbf24cb091e2808948284, type: 3}
+  itemDescription: 
